@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,500;6..12,600;6..12,700;6..12,800&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script defer src="js/country.js"></script>
+    <script
+      src="https://kit.fontawesome.com/d7f0bd436b.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header class="">
+      <div class="flex container">
+        <div class="right-header">Where in the world?</div>
+        <button class="left-header">
+          <span><i class="fa-regular fa-moon"></i></span> Dark Mode
+        </button>
+      </div>
+    </header>
+    <section class="container">
+      <button class="back-btn">
+        <span><i class="fa-solid fa-arrow-left"></i></span>
+        Back
+      </button>
+    </section>
+    <main class="main_body">
+      <!-- <div class="main">
+            <img src=${flags.svg} alt="${name.common}">
+            <div class="text">
+                <div class="name">${
+                  name.official || name.common
+                }</div>
+                <div class="population">Population: ${population.toLocaleString()}</div>
+                <div class="region">Region: ${region}</div>
+                <div class="sub-region">Sub Region: ${subregion}</div>
+                <div class="capital">Capital: ${capital}</div>
+
+                <div class="">
+                    <h1 class=''>
+                      Top Level Domain:
+                      <span class=''>{tld}</span>
+                    </h1>
+                    <h1 class=''>
+                      Currencies:
+                      <span class=''>
+                        {currencies && currencies[currencyKeys].name}
+                      </span>
+                      <span class=''>
+                        {currencies && currencies[currencyKeys].symbol}
+                      </span>
+                    </h1>
+                    <h1 class=''>
+                      Languages:
+                      <span class=''>
+                        {languagesVal
+                          ?.map((val) => val)
+                          .sort((a, b) => (a > b ? 1 : -1))
+                          .join(", ")}
+                      </span>
+                    </h1>
+                  </div>
+            </div>
+        </div> -->
+    </main>
+  </body>
+</html>
