@@ -26,7 +26,7 @@ const getJson = async function (url) {
   try {
     const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
     const data = await res.json();
-    if (!res.ok) throw new Error(`kkk${data.message} (${res.status})`)
+    if (!res.ok) throw new Error(`kkk${data.message} (${res.status})`);
     return data;
   } catch (err) {
     console.log(err.message);
@@ -34,20 +34,9 @@ const getJson = async function (url) {
 };
 
 const generateMarkUp = function (data) {
-  data.forEach((country, idx) => {
-    const {
-      name,
-      flags,
-      capital,
-      region,
-      population,
-      cca3,
-      borders,
-      subregion,
-      tld,
-      currencies,
-      languages,
-    } = country;
+  const newData = data.forEach((country, idx) => {
+    // prettier-ignore
+    const {name, flags, capital, region, population, cca3, borders, subregion, tld, currencies, languages,} = country;
     // console.log(name);
     // console.log(country);
 
@@ -70,7 +59,9 @@ const generateMarkUp = function (data) {
 
     mainBody.insertAdjacentHTML("beforeend", markup);
   });
+  // newData.sort((a, b) => a - b);
 };
+
 mainBody.addEventListener("click", getDataSet);
 
 async function getDataSet(e) {
@@ -87,7 +78,7 @@ async function getDataSet(e) {
     arrayOfCodes = [...arrayOfCodes, code];
     // console.log(newArr);
     console.log(arrayOfCodes);
-    if (!data.ok) throw new Error(`${data.message} (${res.status})`)
+    if (!data.ok) throw new Error(`${data.message} (${res.status})`);
   } catch (err) {
     console.log(err.message);
   }
@@ -102,6 +93,8 @@ const displayBody = async function () {
     // console.log(data);
 
     // 2.
+    data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+    // data.sort((a, b) => a.name.common > b.name.common ? 1 : -1)
     generateMarkUp(data);
 
     // 1. Refactor. create a function on it's own
@@ -142,30 +135,29 @@ const displayBody = async function () {
     //   });
 
     // 3.
-    if (!data.ok) throw new Error(`${data.message} (${res.status})`)
+    if (!data.ok) throw new Error(`${data.message} (${res.status})`);
   } catch (err) {
     console.log(err.message);
   }
 };
 displayBody();
 
-const renderRegion =  async function(region) {
-  mainBody.innerHTML = ''
-  const data = await getJson(`${API_URL}region/${region}`)
+const renderRegion = async function (region) {
+  mainBody.innerHTML = "";
+  const data = await getJson(`${API_URL}region/${region}`);
   generateMarkUp(data);
-}
+};
 
-document.querySelector('.select').addEventListener('click', function(e) {
+document.querySelector(".select").addEventListener("click", function (e) {
   console.log(e.target.value);
-  const region = e.target.value
-  if (!region) return
-  renderRegion(region)
-})
+  const region = e.target.value;
+  if (!region) displayBody();
+  renderRegion(region);
+});
 
 const array = [1, 2, 2, 3, 4, 4, 5, 5, 6, 7, 7, 8];
 
 const uniqueElements = array.filter((value, index, self) => {
   return self.indexOf(value) === index;
-  
 });
 console.log(uniqueElements);
