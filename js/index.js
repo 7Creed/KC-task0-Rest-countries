@@ -4,6 +4,8 @@
 // const main = document.getElementsByTagName("main");
 // console.log(main);
 const mainBody = document.querySelector(".main_body");
+const selectElement = document.querySelector(".select");
+const inputElement = document.getElementById("myInput");
 const API_URL = "https://restcountries.com/v3.1/";
 const TIMEOUT_SEC = 10;
 let arrayOfCodes = [];
@@ -21,7 +23,6 @@ const timeout = function (s) {
 };
 
 // Error Handler
-
 const getJson = async function (url) {
   try {
     const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
@@ -31,6 +32,12 @@ const getJson = async function (url) {
   } catch (err) {
     console.log(err.message);
   }
+};
+
+// Sorting function
+const sorted = function (val) {
+  val.sort((a, b) => a.name.common.localeCompare(b.name.common));
+  // val.sort((a, b) => (a.name.common > b.name.common ? 1 : -1));
 };
 
 const generateMarkUp = function (data) {
@@ -93,8 +100,7 @@ const displayBody = async function () {
     // console.log(data);
 
     // 2.
-    data.sort((a, b) => a.name.common.localeCompare(b.name.common));
-    // data.sort((a, b) => a.name.common > b.name.common ? 1 : -1)
+    sorted(data);
     generateMarkUp(data);
 
     // 1. Refactor. create a function on it's own
@@ -145,14 +151,29 @@ displayBody();
 const renderRegion = async function (region) {
   mainBody.innerHTML = "";
   const data = await getJson(`${API_URL}region/${region}`);
+  sorted(data);
   generateMarkUp(data);
 };
 
-document.querySelector(".select").addEventListener("click", function (e) {
+selectElement.addEventListener("click", function (e) {
   console.log(e.target.value);
   const region = e.target.value;
   if (!region) displayBody();
   renderRegion(region);
+});
+
+inputElement.addEventListener("input", async function (e) {
+  mainBody.innerHTML = "";
+  const inputValue = e.target.value;
+  const data = await getJson(`${API_URL}all`);
+  // console.log(inputValue);
+  if (!inputValue) displayBody() 
+  const inputSearch = data.filter((item) =>
+    item.name.common
+      .toLowerCase()
+      .includes(inputValue !== "" && inputValue.toLowerCase())
+  );
+  generateMarkUp(inputSearch);
 });
 
 const array = [1, 2, 2, 3, 4, 4, 5, 5, 6, 7, 7, 8];
