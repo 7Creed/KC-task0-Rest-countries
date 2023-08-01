@@ -18,7 +18,7 @@
       crossorigin="anonymous"
     ></script>
   </head>
-  <body class="">
+  <body class="light-mode">
     <header class="">
       <div class="flex container">
         <div class="right-header">Where in the world?</div>
@@ -29,19 +29,25 @@
     </header>
 
     <div class="body">
-      <div class="container flex">
-        <div><i class="fa-solid fa-magnifying-glass"></i></div>
+      <div class="container flex search">
+        <button><i class="fa-solid fa-magnifying-glass"></i></button>
         <input type="text" id="myInput" placeholder="Search for a country..." />
       </div>
-      <div class="container select">
-        <select name="" id="">
-          <option value="">Filter By Region</option>
-          <option value="Africa">Africa</option>
-          <option value="America">America</option>
-          <option value="Asia">Asia</option>
-          <option value="Europe">Europe</option>
-          <option value="Oceania">Oceania</option>
-        </select>
+      <div class="container custom-select">
+        <div id="dropdown-btn">
+          <p>Filter By Region</p>
+          <span><i class="fa-solid fa-circle-chevron-down"></i></span>
+        </div>
+        <div id="dropdown-opt" class="hide">
+          <ul id="country-region">
+            <li value="">All</li>
+            <li value="Africa">Africa</li>
+            <li value="America">America</li>
+            <li value="Asia">Asia</li>
+            <li value="Europe">Europe</li>
+            <li value="Oceania">Oceania</li>
+          </ul>
+        </div>
       </div>
     </div>
     <main>

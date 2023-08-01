@@ -4,14 +4,16 @@
 // const main = document.getElementsByTagName("main");
 // console.log(main);
 const mainBody = document.querySelector(".main_body");
-const selectElement = document.querySelector(".select");
+const darkModeBtn = document.querySelector(".left-header");
+const selectElement = document.querySelector(".custom-select");
+const dropdownBtn = document.querySelector("#dropdown-btn");
+const dropdownOpt = document.querySelector("#dropdown-opt");
+const countryRegion = document.querySelector("#country-region");
 const inputElement = document.getElementById("myInput");
 const API_URL = "https://restcountries.com/v3.1/";
 const TIMEOUT_SEC = 10;
 let arrayOfCodes = [];
 // console.log(arrayOfCodes)
-
-// localStorage.clear()
 
 // Helpers
 const timeout = function (s) {
@@ -66,7 +68,6 @@ const generateMarkUp = function (data) {
 
     mainBody.insertAdjacentHTML("beforeend", markup);
   });
-  // newData.sort((a, b) => a - b);
 };
 
 mainBody.addEventListener("click", getDataSet);
@@ -156,24 +157,43 @@ const renderRegion = async function (region) {
 };
 
 selectElement.addEventListener("click", function (e) {
-  console.log(e.target.value);
-  const region = e.target.value;
-  if (!region) displayBody();
-  renderRegion(region);
+  e.preventDefault();
+  if (e.target.closest("#dropdown-btn")) dropdownOpt.classList.toggle("hide");
+  // console.log(e.target.value);
+  // console.log(e.target.textContent);
+  // const region = e.target.value;
+  // if (!region) return;
+  // renderRegion(region);
 });
+
+// Look at later (tomorrow)
+countryRegion.addEventListener('click', function(e) {
+  if (!e.target) return
+  const region = e.target.textContent;
+  // console.log(e.target.textContent);
+  if (region === 'All') displayBody()
+  renderRegion(region)
+  dropdownOpt.classList.add("hide");
+})
 
 inputElement.addEventListener("input", async function (e) {
   mainBody.innerHTML = "";
   const inputValue = e.target.value;
   const data = await getJson(`${API_URL}all`);
   // console.log(inputValue);
-  if (!inputValue) displayBody() 
+  if (!inputValue) displayBody();
   const inputSearch = data.filter((item) =>
     item.name.common
       .toLowerCase()
       .includes(inputValue !== "" && inputValue.toLowerCase())
   );
   generateMarkUp(inputSearch);
+});
+
+darkModeBtn.addEventListener("click", function () {
+  // console.log('clicked');
+  document.body.classList.toggle("dark-mode");
+  // document.body.setAttribute('id', 'dark-mode')
 });
 
 const array = [1, 2, 2, 3, 4, 4, 5, 5, 6, 7, 7, 8];

@@ -3,7 +3,6 @@
 const mainBody = document.querySelector(".main_body");
 const API_URL = "https://restcountries.com/v3.1/";
 
-// localStorage.clear()
 let data = JSON.parse(localStorage.getItem("name")) || [];
 console.log(data);
 console.log("nameObj");
