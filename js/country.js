@@ -133,8 +133,8 @@ generateMarkUp(data);
 
 backBtn.addEventListener("click", function () {
   // Go back to the previous page in the browser's history
-  window.history.back();
-  // window.location.href = 'index.html'
+  // window.history.back();
+  window.location.href = 'index.html'
 });
 
 darkModeBtn.addEventListener("click", function () {
