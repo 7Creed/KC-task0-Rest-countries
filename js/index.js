@@ -43,6 +43,13 @@ const sorted = function (val) {
   // val.sort((a, b) => (a.name.common > b.name.common ? 1 : -1));
 };
 
+const screenMode = localStorage.getItem("darkMode") === 'true';
+console.log(screenMode);
+
+window.onload = () => {
+  screenMode ? document.body.classList.add("dark-mode") : document.body.classList.remove("dark-mode");
+};
+
 mainBody.addEventListener("click", getDataSet);
 
 const generateMarkUp = function (data) {
@@ -191,6 +198,11 @@ darkModeBtn.addEventListener("click", function () {
     // document.body.classList.toggle("dark-mode");
   });
   document.body.classList.toggle("dark-mode");
+  localStorage.setItem(
+    "darkMode",
+    document.body.classList.contains("dark-mode")
+  );
+  console.log(document.body.classList.contains("dark-mode"));
   // document.body.setAttribute('id', 'dark-mode')
 });
 

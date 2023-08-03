@@ -140,13 +140,13 @@ body.dark-mode .search button {
 /* Custom Select Button */
 .custom-select {
   position: relative;
-  margin-block: 1rem;
+  margin-block: 1.5rem;
   padding: 8px;
   color: #070606;
   font-weight: 500;
+  width: 50%;
+  margin-inline-start: 1.2rem;
 
-  display: inline-block;
-  /* border: 1px solid #ccc; */
   border-radius: 4px;
   background-color: var(--white);
 }
@@ -189,7 +189,12 @@ ul {
 .main {
   background-color: var(--white);
   margin-block-end: 2rem;
+  border-radius: 7px;
   /* font-weight: 500; */
+}
+
+.main-country {
+  margin-block-end: 2rem;
 }
 
 body.dark-mode .main {
@@ -198,12 +203,17 @@ body.dark-mode .main {
   /* font-weight: 300; */
 }
 
-.text {
-  padding-block: 20px;
+body.dark-mode .main-country {
+  color: var(--very-light-gray);
 }
 
 img {
   width: 100%;
+  object-fit: cover;
+}
+
+.main img {
+  border-radius: 7px 7px 0 0;
 }
 
 button.left {
@@ -233,8 +243,17 @@ input:focus {
   box-shadow: 1px 0.5px 10px 2px rgba(0, 0, 0, 0.2);
 }
 
+body.dark-mode #back-btn {
+  background-color: var(--dark-blue);
+  color: var(--very-light-gray)
+}
+
 .name {
   padding-block: 1rem;
+}
+
+.text {
+  padding: 20px;
 }
 
 .text-first,
@@ -279,16 +298,11 @@ input:focus {
     /* background: #000; */
   }
 
-  /* .custom-select {
-    position: relative;
+  .custom-select {
     margin-block: 1rem;
     padding: 8px;
   
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: transparent;
-  } */
+  }
 
   .main_body {
     width: 90%;

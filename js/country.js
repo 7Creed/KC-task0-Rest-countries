@@ -1,6 +1,7 @@
 "use strict";
 
 const mainBody = document.querySelector(".main_body");
+const darkModeBtn = document.querySelector(".left-header");
 const backBtn = document.getElementById("back-btn");
 
 const API_URL = "https://restcountries.com/v3.1/";
@@ -8,6 +9,13 @@ const API_URL = "https://restcountries.com/v3.1/";
 let data = JSON.parse(localStorage.getItem("name")) || [];
 console.log(data);
 console.log("nameObj");
+
+const screenMode = localStorage.getItem("darkMode") === 'true';
+console.log(screenMode);
+
+window.onload = () => {
+  screenMode ? document.body.classList.add("dark-mode") : document.body.classList.remove("dark-mode");
+};
 
 // Helpers
 const getJson = async function (url) {
@@ -67,7 +75,7 @@ const generateMarkUp = function (data) {
     const markup = ` 
         <div class="main-country">
             <img src=${flags.svg} alt="${name.common}">
-            <div class="text">
+            <div class="text-country">
                 <div class="name">
                     <h3>${name.common || name.official}</h3>
                 </div>
@@ -109,7 +117,7 @@ const generateMarkUp = function (data) {
                     <h4 className="">Borders Countries:</h4>
                     <div>
                         ${borders?.map((bord) => {
-                        console.log(bord);
+                          console.log(bord);
                         })}
                     </div>
                 </div>
@@ -123,10 +131,24 @@ const generateMarkUp = function (data) {
 };
 generateMarkUp(data);
 
-backBtn.addEventListener("click", function() {
+backBtn.addEventListener("click", function () {
   // Go back to the previous page in the browser's history
   window.history.back();
   // window.location.href = 'index.html'
+});
+
+darkModeBtn.addEventListener("click", function () {
+  console.log(document.querySelectorAll(".color"));
+  document.querySelectorAll(".color").forEach((el) => {
+    el.classList.toggle("hide");
+    // document.body.classList.toggle("dark-mode");
+  });
+  document.body.classList.toggle("dark-mode");
+  localStorage.setItem(
+    "darkMode",
+    document.body.classList.contains("dark-mode")
+  );
+  // document.body.setAttribute('id', 'dark-mode')
 });
 
 // console.log(typeof(typeof x));
