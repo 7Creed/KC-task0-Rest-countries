@@ -1,6 +1,8 @@
 "use strict";
 
 const mainBody = document.querySelector(".main_body");
+const backBtn = document.getElementById("back-btn");
+
 const API_URL = "https://restcountries.com/v3.1/";
 
 let data = JSON.parse(localStorage.getItem("name")) || [];
@@ -121,11 +123,10 @@ const generateMarkUp = function (data) {
 };
 generateMarkUp(data);
 
-// ${currencies && currencies[currencyKeys].symbol}
-// ${currencies && currencies[currencyKeys].name}
-// ${languagesVal
-//     ?.map((val) => val)
-//     .sort((a, b) => (a > b ? 1 : -1))
-// .join(", ")}
+backBtn.addEventListener("click", function() {
+  // Go back to the previous page in the browser's history
+  window.history.back();
+  // window.location.href = 'index.html'
+});
 
 // console.log(typeof(typeof x));

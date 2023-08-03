@@ -15,7 +15,8 @@ const TIMEOUT_SEC = 10;
 let arrayOfCodes = [];
 // console.log(arrayOfCodes)
 
-// Helpers
+// Helper Functions
+// 1. Timeout
 const timeout = function (s) {
   return new Promise(function (_, reject) {
     setTimeout(() => {
@@ -24,7 +25,7 @@ const timeout = function (s) {
   });
 };
 
-// Error Handler
+// 2. Error Handler
 const getJson = async function (url) {
   try {
     const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
@@ -36,17 +37,18 @@ const getJson = async function (url) {
   }
 };
 
-// Sorting function
+// 3. Sorting function
 const sorted = function (val) {
   val.sort((a, b) => a.name.common.localeCompare(b.name.common));
   // val.sort((a, b) => (a.name.common > b.name.common ? 1 : -1));
 };
 
+mainBody.addEventListener("click", getDataSet);
+
 const generateMarkUp = function (data) {
   const newData = data.forEach((country, idx) => {
     // prettier-ignore
     const {name, flags, capital, region, population, cca3, borders, subregion, tld, currencies, languages,} = country;
-    // console.log(name);
     // console.log(country);
 
     // data-country='${JSON.stringify(country)}'
@@ -70,8 +72,6 @@ const generateMarkUp = function (data) {
   });
 };
 
-mainBody.addEventListener("click", getDataSet);
-
 async function getDataSet(e) {
   try {
     const countryElement = e.target.closest(".main");
@@ -82,10 +82,12 @@ async function getDataSet(e) {
     // Store the updated arrayOfCodes in localStorage
     localStorage.setItem("name", JSON.stringify(data));
     window.location.href = "country.html";
+    // window.open(`search.html?search=${data.name.common}`, '_self')
 
+    // Not really useful
     arrayOfCodes = [...arrayOfCodes, code];
-    // console.log(newArr);
     console.log(arrayOfCodes);
+
     if (!data.ok) throw new Error(`${data.message} (${res.status})`);
   } catch (err) {
     console.log(err.message);
@@ -157,24 +159,16 @@ const renderRegion = async function (region) {
 };
 
 selectElement.addEventListener("click", function (e) {
-  e.preventDefault();
   if (e.target.closest("#dropdown-btn")) dropdownOpt.classList.toggle("hide");
-  // console.log(e.target.value);
-  // console.log(e.target.textContent);
-  // const region = e.target.value;
-  // if (!region) return;
-  // renderRegion(region);
 });
-
-// Look at later (tomorrow)
-countryRegion.addEventListener('click', function(e) {
-  if (!e.target) return
+countryRegion.addEventListener("click", function (e) {
+  if (!e.target) return;
   const region = e.target.textContent;
-  // console.log(e.target.textContent);
-  if (region === 'All') displayBody()
-  renderRegion(region)
+  document.querySelector(".search-term").textContent = region;
+  if (region === "All") displayBody();
+  renderRegion(region);
   dropdownOpt.classList.add("hide");
-})
+});
 
 inputElement.addEventListener("input", async function (e) {
   mainBody.innerHTML = "";
@@ -191,14 +185,20 @@ inputElement.addEventListener("input", async function (e) {
 });
 
 darkModeBtn.addEventListener("click", function () {
-  // console.log('clicked');
+  console.log(document.querySelectorAll(".color"));
+  document.querySelectorAll(".color").forEach((el) => {
+    el.classList.toggle("hide");
+    // document.body.classList.toggle("dark-mode");
+  });
   document.body.classList.toggle("dark-mode");
   // document.body.setAttribute('id', 'dark-mode')
 });
 
 const array = [1, 2, 2, 3, 4, 4, 5, 5, 6, 7, 7, 8];
-
 const uniqueElements = array.filter((value, index, self) => {
   return self.indexOf(value) === index;
 });
 console.log(uniqueElements);
+
+let searchTerm = new URLSearchParams(window.location.country).get("search");
+console.log(searchTerm);

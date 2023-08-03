@@ -18,12 +18,13 @@
       crossorigin="anonymous"
     ></script>
   </head>
-  <body class="light-mode">
+  <body class="light-mo">
     <header class="">
       <div class="flex container">
         <div class="right-header">Where in the world?</div>
         <button class="left-header">
-          <span><i class="fa-regular fa-moon"></i></span> Dark Mode
+          <div class="color light"><span><i class="fa-regular fa-moon"></i></span> Dark Mode</div>
+          <div class="color dark hide"><span><i class="fa-solid fa-moon"></i></i></span> Light Mode</div>
         </button>
       </div>
     </header>
@@ -35,17 +36,18 @@
       </div>
       <div class="container custom-select">
         <div id="dropdown-btn">
-          <p>Filter By Region</p>
+          <p class="search-term">Filter By Region</p>
           <span><i class="fa-solid fa-circle-chevron-down"></i></span>
         </div>
         <div id="dropdown-opt" class="hide">
           <ul id="country-region">
-            <li value="">All</li>
-            <li value="Africa">Africa</li>
-            <li value="America">America</li>
-            <li value="Asia">Asia</li>
-            <li value="Europe">Europe</li>
-            <li value="Oceania">Oceania</li>
+            <li class="items">All</li>
+            <!-- <li class="items"></li> -->
+            <li class="items">Africa</li>
+            <li class="items">America</li>
+            <li class="items">Asia</li>
+            <li class="items">Europe</li>
+            <li class="items">Oceania</li>
           </ul>
         </div>
       </div>
