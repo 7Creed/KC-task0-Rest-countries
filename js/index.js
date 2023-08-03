@@ -64,9 +64,11 @@ const generateMarkUp = function (data) {
                       <div class="main" data-country='${cca3}'>
                           <img src=${flags.svg} alt="${name.common}">
                           <div class="text">
-                              <div class="name">${
-                                name.common || name.official
-                              }</div>
+                              <div class="name">
+                                <h3>
+                                ${name.common || name.official}
+                                </h3>
+                              </div>
                               <div class="population">Population: ${population.toLocaleString()}</div>
                               <div class="region">Region: ${region}</div>
                               <div class="capital">Capital: ${capital}</div>
