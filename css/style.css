@@ -71,9 +71,7 @@ header .right-header {
 }
 
 header .left-header {
-  /* font-weight: 800; */
   border: none;
-  /* background-color: var(--white); */
   background-color: inherit;
   padding-inline: 10px;
   padding-block: 5px;
@@ -94,12 +92,9 @@ body.dark-mode .left-header {
   background-color: var(--white);
   justify-content: normal;
   align-items: center;
-  /* border: 1px solid black; */
-  /* max-width: 60%; */
   padding-inline: 5px;
   padding-block: 3px;
   border-radius: 5px;
-  /* margin-inline-start: 1rem; */
 }
 
 .body .search button {
@@ -191,7 +186,6 @@ ul {
   background-color: var(--white);
   margin-block-end: 2rem;
   border-radius: 7px;
-  /* font-weight: 500; */
 }
 
 .main-country {
@@ -201,7 +195,6 @@ ul {
 body.dark-mode .main {
   background-color: var(--dark-blue);
   color: var(--very-light-gray);
-  /* font-weight: 300; */
 }
 
 body.dark-mode .main-country {
@@ -285,9 +278,6 @@ body.dark-mode #back-btn {
 
 /* Error Handler */
 .error-handler {
-  /* border: 10px solid #f3f3f3;  */
-  /* border-top: 10px solid #5b6369;  */
-  /* border-radius: 50%; */
   width: 80%;
   height: 80%;
   margin: 10rem auto;
@@ -304,7 +294,6 @@ body.dark-mode #back-btn {
 }
 
 /* Buttons */
-
 .borders {
   display: grid;
 }
@@ -335,7 +324,6 @@ body.dark-mode .border {
   border: transparent;
 }
 
-
 @media (min-width: 37.5em) {
   header {
     padding-inline: 0rem;
@@ -353,24 +341,15 @@ body.dark-mode .border {
     padding: 20px;
   }
 
-  /* .container {
-    width: 90%;
-    margin-inline: ;
-  } */
-
   .body > .container {
     width: 40%;
     margin-inline: 0;
-    /* background: #000; */
   }
 
   .body > .container:nth-child(2) {
     display: flex;
     justify-content: end;
     width: 18%;
-    /* color: red; */
-    /* margin-inline-end: 0; */
-    /* background: #000; */
   }
 
   .custom-select {
@@ -415,13 +394,11 @@ body.dark-mode .border {
   }
 
   .main-country .text-first {
-    /* display: flex; */
     width: 45%;
     justify-content: flex-end;
   }
 
   .main-country .text-second {
-    /* display: flex; */
     width: 48%;
     justify-content: flex-end;
   }
@@ -430,12 +407,5 @@ body.dark-mode .border {
 /* Desktop view (projects) */
 /* 999.98px */
 @media (min-width: 62.49875rem) {
-  /* .container {
-    width: 100%;
-    margin-inline: auto;
-  } */
 
-  /* body {
-    width: 90%;
-  } */
 }

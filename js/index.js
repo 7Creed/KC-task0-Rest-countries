@@ -1,8 +1,6 @@
 "use strict";
 
 // Configs
-// const main = document.getElementsByTagName("main");
-// console.log(main);
 const mainBody = document.querySelector(".main_body");
 const darkModeBtn = document.querySelector(".left-header");
 const selectElement = document.querySelector(".custom-select");
@@ -31,12 +29,9 @@ const timeout = function (s) {
 const getJson = async function (url) {
   try {
     const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
-    // console.log(res);
     const data = await res.json();
     // if (!res.ok) throw new Error(`${data.message} (${res.status})`);
     if (!res.ok) throw new Error(`Omo!!!🔥 (${res.status})`);
-    // console.log(data);
-    // console.log(timeout(2))
 
     return data;
   } catch (err) {
@@ -112,16 +107,11 @@ const generateMarkUp = function (data) {
 
     mainBody.insertAdjacentHTML("beforeend", markup);
     // mainBody.innerHTML += markup;
-    // loader.classList.add('.hide')
   });
 };
 
 async function getDataSet(e) {
   try {
-    // window.location.href = "country.html";
-    // mainBody.innerHTML = "";
-    // loader.classList.remove("hide");
-
     const countryElement = e.target.closest(".main");
     const code = countryElement.dataset.country;
     const data = await getJson(`${API_URL}/alpha/${code}`);
@@ -141,17 +131,13 @@ async function getDataSet(e) {
     errMsg(err);
   }
 }
-console.log(arrayOfCodes);
-// console.log(getDataSet());
 
 const displayBody = async function () {
   try {
-    // mainBody.innerHTML = "";
     errorHandler.classList.add("hide");
     loader.classList.remove("hide");
     // 1.
     const data = await getJson(`${API_URL}all`);
-    // console.log(data);
 
     // 2.
     sorted(data);
@@ -195,13 +181,11 @@ const displayBody = async function () {
     //   });
 
     loader.classList.add("hide");
-    // renderLoader.stop();
-    // loader.remove()
   } catch (err) {
     loader.classList.add("hide");
     errorHandler.classList.remove("hide");
     console.error(`error!! ${err.message}`);
-    errMsg(err)
+    errMsg(err);
   }
 };
 displayBody();
@@ -257,12 +241,6 @@ darkModeBtn.addEventListener("click", function () {
   console.log(document.body.classList.contains("dark-mode"));
   // document.body.setAttribute('id', 'dark-mode')
 });
-
-const array = [1, 2, 2, 3, 4, 4, 5, 5, 6, 7, 7, 8];
-const uniqueElements = array.filter((value, index, self) => {
-  return self.indexOf(value) === index;
-});
-console.log(uniqueElements);
 
 // let searchTerm = new URLSearchParams(window.location.country).get("search");
 // console.log(searchTerm);

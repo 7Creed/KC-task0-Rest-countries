@@ -33,30 +33,6 @@ window.onload = () => {
 //   }
 // };
 
-// let boundaries = [];
-// const getBorderCountries = async function () {
-//   const res = await fetch(`${API_URL}all`);
-//   console.log(res);
-//   const allData = await res.json();
-//   console.log(allData);
-//   console.log(data[0]);
-//   // console.log(allData.borders);
-//   // console.log(borders);
-//   console.log(data[0]?.borders);
-//   data[0]?.borders
-//     ?.map((bord) => {
-//       return (boundaries += allData.find((each) => each.cca3 === bord));
-//     })
-//     .join("");
-//   console.log(boundaries);
-//   console.log(boundaries[0]?.name.common);
-//   // return `<a href='' class='border'>${}</a>`;
-// };
-// getBorderCountries();
-
-// const allData = awiat getJson(`${API_URL}all`);
-// console.log(allData);
-
 const errMsg = function (err) {
   const html = `
       <div class="error">
@@ -89,8 +65,6 @@ const generateMarkUp = async function (data) {
   const allData = await res.json();
   console.log(allData);
   console.log(data);
-  // console.log(allData.borders);
-  // console.log(borders);
 
   let boundaries = [];
 
@@ -180,9 +154,11 @@ const generateMarkUp = async function (data) {
                 <div class="borders">
                     <h4 class="border-text">Borders Countries:</h4>
                     <div class='country-space'>
-                      ${boundaries.map(
-                        (item) => `<button class='border'>${item}</button>`
-                      ).join('')}
+                      ${boundaries
+                        .map(
+                          (item) => `<button class='border'>${item}</button>`
+                        )
+                        .join("")}
                     </div>
                 </div>
             </div>
@@ -193,11 +169,6 @@ const generateMarkUp = async function (data) {
     loader.classList.add("hide");
   });
 };
-
-// const boundaries = function (data) {
-//   let btn =``;
-//   data.borders?
-// }
 
 function displayCountry() {
   try {
