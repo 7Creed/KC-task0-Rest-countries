@@ -10,8 +10,10 @@ const dropdownBtn = document.querySelector("#dropdown-btn");
 const dropdownOpt = document.querySelector("#dropdown-opt");
 const countryRegion = document.querySelector("#country-region");
 const inputElement = document.getElementById("myInput");
+const loader = document.querySelector(".loader");
+const errorHandler = document.querySelector(".error-handler");
 const API_URL = "https://restcountries.com/v3.1/";
-const TIMEOUT_SEC = 10;
+const TIMEOUT_SEC = 7;
 let arrayOfCodes = [];
 // console.log(arrayOfCodes)
 
@@ -25,15 +27,21 @@ const timeout = function (s) {
   });
 };
 
-// 2. Error Handler
+// 2. Error Handler  --Not sure how it became error handele
 const getJson = async function (url) {
   try {
     const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
+    // console.log(res);
     const data = await res.json();
-    if (!res.ok) throw new Error(`kkk${data.message} (${res.status})`);
+    // if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+    if (!res.ok) throw new Error(`Omo!!!🔥 (${res.status})`);
+    // console.log(data);
+    // console.log(timeout(2))
+
     return data;
   } catch (err) {
-    console.log(err.message);
+    // console.error(`${err}`);
+    throw err;
   }
 };
 
@@ -43,11 +51,36 @@ const sorted = function (val) {
   // val.sort((a, b) => (a.name.common > b.name.common ? 1 : -1));
 };
 
-const screenMode = localStorage.getItem("darkMode") === 'true';
+// 4. Loader
+// function renderLoader () {
+//   const markup = ` <div class="loader"></div> `;
+//   // mainBody.innerHTML = " ";
+//   // mainBody.innerHTML = markup;
+//   mainBody.insertAdjacentHTML("beforeend", markup)
+// };
+
+// 5. Error Handler
+const errMsg = function (err) {
+  const html = `
+      <div class="error">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <h4>Something went wrong.</h2>
+        <details>
+          ${err.message}
+        </details>
+      </div>
+  `;
+  errorHandler.insertAdjacentHTML("beforeend", html);
+};
+
+// Main Functions
+const screenMode = localStorage.getItem("darkMode") === "true";
 console.log(screenMode);
 
 window.onload = () => {
-  screenMode ? document.body.classList.add("dark-mode") : document.body.classList.remove("dark-mode");
+  screenMode
+    ? document.body.classList.add("dark-mode")
+    : document.body.classList.remove("dark-mode");
 };
 
 mainBody.addEventListener("click", getDataSet);
@@ -78,15 +111,20 @@ const generateMarkUp = function (data) {
                     `;
 
     mainBody.insertAdjacentHTML("beforeend", markup);
+    // mainBody.innerHTML += markup;
+    // loader.classList.add('.hide')
   });
 };
 
 async function getDataSet(e) {
   try {
+    // window.location.href = "country.html";
+    // mainBody.innerHTML = "";
+    // loader.classList.remove("hide");
+
     const countryElement = e.target.closest(".main");
     const code = countryElement.dataset.country;
     const data = await getJson(`${API_URL}/alpha/${code}`);
-    console.log(data);
 
     // Store the updated arrayOfCodes in localStorage
     localStorage.setItem("name", JSON.stringify(data));
@@ -96,10 +134,11 @@ async function getDataSet(e) {
     // Not really useful
     arrayOfCodes = [...arrayOfCodes, code];
     console.log(arrayOfCodes);
-
-    if (!data.ok) throw new Error(`${data.message} (${res.status})`);
   } catch (err) {
-    console.log(err.message);
+    console.error(`${err.message} ⚡⚡⚡`);
+    // throw err;
+    // errorHandler.classList.remove("hide");
+    errMsg(err);
   }
 }
 console.log(arrayOfCodes);
@@ -107,6 +146,9 @@ console.log(arrayOfCodes);
 
 const displayBody = async function () {
   try {
+    // mainBody.innerHTML = "";
+    errorHandler.classList.add("hide");
+    loader.classList.remove("hide");
     // 1.
     const data = await getJson(`${API_URL}all`);
     // console.log(data);
@@ -152,10 +194,14 @@ const displayBody = async function () {
     //     return mainBody.insertAdjacentHTML("beforeend", markup);
     //   });
 
-    // 3.
-    if (!data.ok) throw new Error(`${data.message} (${res.status})`);
+    loader.classList.add("hide");
+    // renderLoader.stop();
+    // loader.remove()
   } catch (err) {
-    console.log(err.message);
+    loader.classList.add("hide");
+    errorHandler.classList.remove("hide");
+    console.error(`error!! ${err.message}`);
+    errMsg(err)
   }
 };
 displayBody();
@@ -171,20 +217,24 @@ selectElement.addEventListener("click", function (e) {
   if (e.target.closest("#dropdown-btn")) dropdownOpt.classList.toggle("hide");
 });
 countryRegion.addEventListener("click", function (e) {
+  loader.classList.remove("hide");
   if (!e.target) return;
   const region = e.target.textContent;
   document.querySelector(".search-term").textContent = region;
   if (region === "All") displayBody();
+  loader.classList.add("hide");
   renderRegion(region);
   dropdownOpt.classList.add("hide");
 });
 
 inputElement.addEventListener("input", async function (e) {
   mainBody.innerHTML = "";
+  loader.classList.remove("hide");
   const inputValue = e.target.value;
   const data = await getJson(`${API_URL}all`);
-  // console.log(inputValue);
+
   if (!inputValue) displayBody();
+  console.log(inputValue);
   const inputSearch = data.filter((item) =>
     item.name.common
       .toLowerCase()
@@ -214,5 +264,5 @@ const uniqueElements = array.filter((value, index, self) => {
 });
 console.log(uniqueElements);
 
-let searchTerm = new URLSearchParams(window.location.country).get("search");
-console.log(searchTerm);
+// let searchTerm = new URLSearchParams(window.location.country).get("search");
+// console.log(searchTerm);
