@@ -5,33 +5,34 @@ const darkModeBtn = document.querySelector(".left-header");
 const backBtn = document.getElementById("back-btn");
 const loader = document.querySelector(".loader");
 const errorHandler = document.querySelector(".error-handler");
-console.log(errorHandler);
+console.log(loader);
 
 const API_URL = "https://restcountries.com/v3.1/";
 
 let data = JSON.parse(localStorage.getItem("name")) || [];
-console.log(data);
+// console.log(data);
 
 const screenMode = localStorage.getItem("darkMode") === "true";
-console.log(screenMode);
 
 window.onload = () => {
   screenMode
     ? document.body.classList.add("dark-mode")
     : document.body.classList.remove("dark-mode");
+  mainBody.innerHTML = "";
+  loader.classList.remove("hide");
 };
 
 // Helpers
-// const getJson = async function () {
-//   try {
-//     const res = await fetch(`${API_URL}all`);
-//     if (!res.ok) throw new Error(`Oops`);
-//     const data = await res.json();
-//     return data;
-//   } catch (err) {
-//     console.log(err.message);
-//   }
-// };
+const getJson = async function () {
+  try {
+    const res = await fetch(`${API_URL}all`);
+    if (!res.ok) throw new Error(`Oops`);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
 
 const errMsg = function (err) {
   const html = `
@@ -56,19 +57,18 @@ function extractCommonName(params) {
   return null;
 }
 
-const generateMarkUp = async function (data) {
+// const generateMarkUp = async function (data) {
+async function generateMarkUp(data) {
   mainBody.innerHTML = "";
   loader.classList.remove("hide");
 
-  const res = await fetch(`${API_URL}all`);
-  console.log(res);
-  const allData = await res.json();
-  console.log(allData);
-  console.log(data);
+  const allData = await getJson();
+  // console.log(allData);
+  // console.log(data);
 
   let boundaries = [];
 
-  data.forEach((country, idx) => {
+  data?.map((country, idx) => {
     const {
       name,
       flags,
@@ -90,14 +90,13 @@ const generateMarkUp = async function (data) {
     console.log(borders);
     borders
       ?.map((bord) => {
-        console.log(allData);
         return allData.find((each) => {
           if (each.cca3 === bord) boundaries.push(each.name.common);
         });
       })
       .join("");
-    console.log(boundaries);
-    console.log(boundaries?.name);
+    // console.log(boundaries);
+    // console.log(boundaries?.name);
 
     // // This
     // const getNativeKey = Object.keys(name.nativeName);
@@ -156,7 +155,8 @@ const generateMarkUp = async function (data) {
                     <div class='country-space'>
                       ${boundaries
                         .map(
-                          (item) => `<button class='border'>${item}</button>`
+                          (item) =>
+                            `<a href='country.html?country=${item}'><button class='border'>${item}</button></a>`
                         )
                         .join("")}
                     </div>
@@ -168,17 +168,20 @@ const generateMarkUp = async function (data) {
     mainBody.insertAdjacentHTML("beforeend", markup);
     loader.classList.add("hide");
   });
-};
-
-function displayCountry() {
-  try {
-    generateMarkUp(data);
-  } catch (err) {
-    loader.classList.add("hide");
-    errMsg(err);
-  }
 }
-displayCountry();
+
+// function displayCountry(data) {
+//   try {
+//     mainBody.innerHTML = "";
+//     loader.classList.remove("hide");
+//     generateMarkUp(data);
+//   } catch (err) {
+//     loader.classList.add("hide");
+//     errMsg(err);
+//   }
+// }
+// window.addEventListener('hashchange', displayCountry)
+// displayCountry();
 
 backBtn.addEventListener("click", function () {
   // Go back to the previous page in the browser's history
@@ -199,4 +202,46 @@ darkModeBtn.addEventListener("click", function () {
   // document.body.setAttribute('id', 'dark-mode')
 });
 
-// console.log(typeof(typeof x));
+console.log(window.location);
+
+async function handleUrlChange() {
+  // const code = window.location.search;
+  // const country = code.slice(code.indexOf("=") + 1);
+  const urlParams = new URLSearchParams(window.location.search);
+  const country = urlParams.get("country");
+  // console.log(country);
+
+  mainBody.innerHTML = "";
+  loader.classList.remove("hide");
+
+  if (!country) return;
+
+  const response = await updateCountryInfo(country);
+  console.log(response);
+
+  generateMarkUp(response);
+}
+
+async function updateCountryInfo(countryName) {
+  try {
+    mainBody.innerHTML = "";
+    loader.classList.remove("hide");
+    // const headers = new Headers();
+    // headers.append("Cache-Control", "no-cache"); // Add this line to prevent caching
+
+    // https://restcountries.com/v3.1/name/{name}
+    const res = await fetch(`${API_URL}name/${countryName}`);
+    console.log(res);
+    const countryData = await res.json();
+    console.log(countryData);
+
+    if (!res.ok) throw new Error(`Omo!!!🔥 (${res.status})`);
+    return countryData;
+  } catch (err) {
+    console.error(`${err.message}`)
+  }
+}
+
+// ['popstate', 'load'].forEach(ev => window.addEventListener(ev, handleUrlChange));
+window.addEventListener("popstate", handleUrlChange);
+handleUrlChange();

@@ -316,6 +316,11 @@ body.dark-mode #back-btn {
   font-size: 12px;
   font-weight: 300;
   color: var(--very-dark-blue2);
+} 
+
+.border a {
+  text-decoration: none;
+  color: var(--very-dark-blue2);
 }
 
 body.dark-mode .border {

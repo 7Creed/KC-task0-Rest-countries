@@ -11,7 +11,7 @@ const inputElement = document.getElementById("myInput");
 const loader = document.querySelector(".loader");
 const errorHandler = document.querySelector(".error-handler");
 const API_URL = "https://restcountries.com/v3.1/";
-const TIMEOUT_SEC = 7;
+const TIMEOUT_SEC = 30;
 let arrayOfCodes = [];
 // console.log(arrayOfCodes)
 
@@ -70,13 +70,27 @@ const errMsg = function (err) {
 
 // Main Functions
 const screenMode = localStorage.getItem("darkMode") === "true";
-console.log(screenMode);
 
 window.onload = () => {
   screenMode
     ? document.body.classList.add("dark-mode")
     : document.body.classList.remove("dark-mode");
 };
+
+darkModeBtn.addEventListener("click", function () {
+  console.log(document.querySelectorAll(".color"));
+  document.querySelectorAll(".color").forEach((el) => {
+    el.classList.toggle("hide");
+    // document.body.classList.toggle("dark-mode");
+  });
+  document.body.classList.toggle("dark-mode");
+  localStorage.setItem(
+    "darkMode",
+    document.body.classList.contains("dark-mode")
+  );
+  console.log(document.body.classList.contains("dark-mode"));
+  // document.body.setAttribute('id', 'dark-mode')
+});
 
 mainBody.addEventListener("click", getDataSet);
 
@@ -87,8 +101,8 @@ const generateMarkUp = function (data) {
     // console.log(country);
 
     // data-country='${JSON.stringify(country)}'
+    // <a href="country.html?country=${name.common}">COUNTRY 1</a>
     const markup = `
-                       
                       <div class="main" data-country='${cca3}'>
                           <img src=${flags.svg} alt="${name.common}">
                           <div class="text">
@@ -114,11 +128,14 @@ async function getDataSet(e) {
   try {
     const countryElement = e.target.closest(".main");
     const code = countryElement.dataset.country;
+    // console.log(code);
     const data = await getJson(`${API_URL}/alpha/${code}`);
+    console.log(data);
 
     // Store the updated arrayOfCodes in localStorage
     localStorage.setItem("name", JSON.stringify(data));
-    window.location.href = "country.html";
+    // window.location.href = `country.html`;
+    window.location.href = `country.html?country=${data[0].name.common}`;
     // window.open(`search.html?search=${data.name.common}`, '_self')
 
     // Not really useful
@@ -225,21 +242,6 @@ inputElement.addEventListener("input", async function (e) {
       .includes(inputValue !== "" && inputValue.toLowerCase())
   );
   generateMarkUp(inputSearch);
-});
-
-darkModeBtn.addEventListener("click", function () {
-  console.log(document.querySelectorAll(".color"));
-  document.querySelectorAll(".color").forEach((el) => {
-    el.classList.toggle("hide");
-    // document.body.classList.toggle("dark-mode");
-  });
-  document.body.classList.toggle("dark-mode");
-  localStorage.setItem(
-    "darkMode",
-    document.body.classList.contains("dark-mode")
-  );
-  console.log(document.body.classList.contains("dark-mode"));
-  // document.body.setAttribute('id', 'dark-mode')
 });
 
 // let searchTerm = new URLSearchParams(window.location.country).get("search");
